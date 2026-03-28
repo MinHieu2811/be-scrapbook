@@ -5,6 +5,7 @@ import 'express-async-errors';
 
 import scrapbookRoutes from './routes/scrapbook.routes';
 import giftRoutes from './routes/gift.routes';
+import trackingRoutes from './routes/tracking.routes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
@@ -30,6 +31,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/scrapbooks', scrapbookRoutes);
 app.use('/api/gifts', giftRoutes);
+app.use('/api/tracking', trackingRoutes);
 
 // ============================================
 // Error Handler (must be last)
