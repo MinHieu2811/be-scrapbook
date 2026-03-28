@@ -1,13 +1,26 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import dotenv from 'dotenv';
 
-dotenv.config();
+let _supabase: SupabaseClient | null = null;
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+export function getSupabaseClient(): SupabaseClient {
+  if (_supabase) return _supabase;
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables. Check .env file.');
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error(
+      'Missing Supabase environment variables: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set.',
+    );
+  }
+
+  _supabase = createClient(supabaseUrl, supabaseKey);
+  return _supabase;
 }
 
-export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseKey);
+// Convenience default export for backwards compatibility
+export const supabase = new Proxy({} as SupabaseClient, {
+  get(_target, prop) {
+    return getSupabaseClient()[prop as keyof SupabaseClient];
+  },
+});
