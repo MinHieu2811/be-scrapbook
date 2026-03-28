@@ -14,6 +14,7 @@ const app = express();
 // Middleware
 // ============================================
 app.use(helmet());
+console.log("ALLOWED_ORIGINS", process.env.ALLOWED_ORIGINS)
 app.use(
   cors({
     origin: process.env.ALLOWED_ORIGINS?.split(',') ?? '*',
