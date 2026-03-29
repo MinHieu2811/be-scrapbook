@@ -17,10 +17,12 @@ app.use(helmet());
 app.use(
   cors({
     origin: (origin, callback) => {
+      const allowed = process.env.ALLOWED_ORIGINS?.split(',').map((o) => o.trim()) ?? [];
+      // eslint-disable-next-line no-console
+      console.log('[CORS] request origin:', origin, '| allowed list:', allowed);
+
       // No origin = same-origin or non-browser (curl, Postman) → allow
       if (!origin) return callback(null, true);
-
-      const allowed = process.env.ALLOWED_ORIGINS?.split(',').map((o) => o.trim()) ?? [];
 
       // No allowlist configured → allow all (fallback for misconfiguration)
       if (allowed.length === 0) return callback(null, true);
