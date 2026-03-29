@@ -14,11 +14,25 @@ const app = express();
 // Middleware
 // ============================================
 app.use(helmet());
-console.log("ALLOWED_ORIGINS", process.env.ALLOWED_ORIGINS)
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') ?? '*',
+    origin: (origin, callback) => {
+      // No origin = same-origin or non-browser (curl, Postman) → allow
+      if (!origin) return callback(null, true);
+
+      const allowed = process.env.ALLOWED_ORIGINS?.split(',').map((o) => o.trim()) ?? [];
+
+      // No allowlist configured → allow all (fallback for misconfiguration)
+      if (allowed.length === 0) return callback(null, true);
+
+      if (allowed.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Origin "${origin}" not allowed by CORS`));
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
   }),
 );
 app.use(express.json());
