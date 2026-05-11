@@ -24,12 +24,12 @@ app.use(
       // eslint-disable-next-line no-console
       console.log('[CORS] request origin:', origin, '| allowed list:', allowed);
 
-      // No origin = same-origin or non-browser (curl, Postman) → allow
-      if (!origin) return callback(null, true);
+      // Block requests with no origin (non-browser or same-origin)
+      if (!origin) {
+        return callback(new Error('CORS: Origin header is required'));
+      }
 
-      // No allowlist configured → allow all (fallback for misconfiguration)
-      if (allowed.length === 0) return callback(null, true);
-
+      // Only allow if the origin is in our allowlist
       if (allowed.includes(origin)) {
         callback(null, true);
       } else {
