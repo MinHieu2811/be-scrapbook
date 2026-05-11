@@ -6,11 +6,12 @@ import {
   updateScrapbook,
   deleteScrapbook,
 } from '../controllers/scrapbook.controller';
+import { cacheMiddleware } from '../middlewares/cache';
 
 const router = Router();
 
-router.get('/', getAllScrapbooks);
-router.get('/:id', getScrapbookById);
+router.get('/', cacheMiddleware(60, 300), getAllScrapbooks);
+router.get('/:id', cacheMiddleware(60, 300), getScrapbookById);
 router.post('/', createScrapbook);
 router.put('/:id', updateScrapbook);
 router.delete('/:id', deleteScrapbook);
