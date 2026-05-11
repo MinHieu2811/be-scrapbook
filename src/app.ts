@@ -7,12 +7,15 @@ import scrapbookRoutes from './routes/scrapbook.routes';
 import giftRoutes from './routes/gift.routes';
 import trackingRoutes from './routes/tracking.routes';
 import { errorHandler } from './middlewares/errorHandler';
+import { timeoutMiddleware } from './middlewares/timeout';
 
 const app = express();
 
 // ============================================
 // Middleware
 // ============================================
+// Enforce a 15-second timeout on all API requests to prevent hanging connections
+app.use(timeoutMiddleware(15000));
 app.use(helmet());
 app.use(
   cors({
