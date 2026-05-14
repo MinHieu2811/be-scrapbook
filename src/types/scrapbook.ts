@@ -10,18 +10,18 @@ export interface Scrapbook {
   updated_at: string;
 }
 
-export type GiftBoxType = 'box2d' | 'box3d' | 'letter' | 'egg'
+export type GiftBoxType = 'box2d' | 'box3d' | 'letter' | 'egg';
 
 export interface GiftData {
-  id: string
-  senderName: string
-  receiverName: string
-  message: string
-  photos: string[]          // base64 data URLs
-  birthdayDate: string      // YYYY-MM-DD
-  lockUntilBirthday: boolean
-  giftBoxType: GiftBoxType
-  createdAt: string
+  id: string;
+  senderName: string;
+  receiverName: string;
+  message: string;
+  photos: string[]; // base64 data URLs
+  birthdayDate: string; // YYYY-MM-DD
+  lockUntilBirthday: boolean;
+  giftBoxType: GiftBoxType;
+  createdAt: string;
 }
 
 /** Payload for creating a new gift */

@@ -1,11 +1,7 @@
 import { Request, Response } from 'express';
 import { supabase } from '../config/supabase';
 import { ApiResponse } from '../types/scrapbook';
-import {
-  CreateTrackingEventDto,
-  TrackingEvent,
-  TrackingEventRow,
-} from '../types/tracking';
+import { CreateTrackingEventDto, TrackingEvent, TrackingEventRow } from '../types/tracking';
 
 const TABLE = 'tracking_events';
 
@@ -23,7 +19,6 @@ const toTrackingEvent = (row: TrackingEventRow): TrackingEvent => ({
 // ============================================
 export const trackEvent = async (req: Request, res: Response): Promise<void> => {
   const body = req.body as CreateTrackingEventDto;
-  console.log(body)
 
   if (!body.sessionId || !body.event) {
     const response: ApiResponse = {

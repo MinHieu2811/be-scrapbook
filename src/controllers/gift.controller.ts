@@ -24,10 +24,17 @@ export const createGift = async (req: Request, res: Response): Promise<void> => 
   const body: CreateGiftDataDto = req.body;
 
   // Basic validation
-  if (!body.senderName || !body.receiverName || !body.message || !body.birthdayDate || !body.giftBoxType) {
+  if (
+    !body.senderName ||
+    !body.receiverName ||
+    !body.message ||
+    !body.birthdayDate ||
+    !body.giftBoxType
+  ) {
     const response: ApiResponse = {
       success: false,
-      error: 'Missing required fields: senderName, receiverName, message, birthdayDate, giftBoxType',
+      error:
+        'Missing required fields: senderName, receiverName, message, birthdayDate, giftBoxType',
     };
     res.status(400).json(response);
     return;

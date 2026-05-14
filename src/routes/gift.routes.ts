@@ -1,9 +1,5 @@
 import { Router } from 'express';
-import {
-  createGift,
-  getGiftById,
-  getAllGifts,
-} from '../controllers/gift.controller';
+import { createGift, getGiftById, getAllGifts } from '../controllers/gift.controller';
 
 const router = Router();
 
